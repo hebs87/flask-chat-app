@@ -12,7 +12,8 @@ from flask import Flask, redirect, render_template, request, session, url_for
 # 3. Initialise a new instance of our Flask application
 app = Flask(__name__)
 # 18. To generate session ID, we need to assign secret key (normally set as environment variable in production)
-app.secret_key = "randomstring123"
+# randomstring123 is the default value if Flask can't find the variable called SECRET
+app.secret_key = os.getenv("SECRET", "randomstring123")
 
 # 12. Create empty list to store our messages
 messages = []
@@ -98,5 +99,6 @@ def send_message(username, message):
     return redirect("/" + username)
 '''
 
-# 6. Run our environment and set variables
-app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)
+# 6. Run our environment and set variables - debug to True
+# 28. Add default values and set debug to false (saves doing this in Heroku)
+app.run(host=os.getenv("IP", "0.0.0.0"), port=int(os.getenv("PORT", "5000")), debug=False)
