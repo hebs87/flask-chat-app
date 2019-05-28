@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat page for {{ username }}</title>
+</head>
+<body>
+    
+    <!--Pass in our username variable into the heading-->
+    <h1>Welcome, {{ username }}</h1>
+    
+    <!--Create a form for a text area for the user to type their messages-->
+    <form method="POST">
+        <textarea cols="50" rows="4" name="message" id="message"></textarea>
+        <br>
+        <button>Send message</button>
+    </form>
+    <!--Pass in our chat_messages variable into the body (these are variables from .py file)
+    for loop to ensure our message is displaying as we want it
+    In the html, we can then reference the keys in the messages dictionary-->
+    {% for message in chat_messages %}
+    <p>({{ message.timestamp }}) {{ message.from }}: {{ message.message }}</p>
+    {% endfor %}
+
+<script>
+
+    let textbox = document.getElementById("message");
+    
+    //Timer used to refresh the page every 5 seconds, so that latest messages are displayed
+    let timer = setTimeout(function() {
+        location.reload();
+    }, 5000);
+    
+    textbox.onkeydown = function(e) {
+        //Clears the timer when a key is pressed
+        clearTimeout(timer);
+        
+        //Starts the timer 5 seconds after the key is pressed
+        timer = setTimeout(function() {
+            location.reload();
+        }, 5000);
+        
+    };
+    
+</script>
+    
+</body>
+</html>
